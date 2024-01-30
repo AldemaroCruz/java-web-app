@@ -11,17 +11,24 @@ pipeline {
                     securityContext:
                       privileged: true
                     env:
-                      - name: DOCKER_TLS_CERTDIR
-                          value: ""
-                      - name: jnlp
-                        image: jenkins/inbound-agent:4.3-4
-                        volumeMounts:
-                        - mountPath: "/home/jenkins"
-                          name: "workspace-volume"
-                      volumes:
-                      - name: workspace-volume
-                        emptyDir: {}
-          '''
+                    - name: DOCKER_TLS_CERTDIR
+                      value: ""
+                    volumeMounts:
+                    - mountPath: /var/run/docker.sock
+                      name: docker-sock
+                  - name: jnlp
+                    image: jenkins/inbound-agent:4.3-4
+                    volumeMounts:
+                    - mountPath: /home/jenkins
+                      name: workspace-volume
+                  volumes:
+                  - name: docker-sock
+                    hostPath:
+                      path: /var/run/docker.sock
+                      type: Socket
+                  - name: workspace-volume
+                    emptyDir: {}
+            '''
         }
     }
     environment {

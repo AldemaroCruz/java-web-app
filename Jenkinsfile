@@ -43,7 +43,7 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh 'pwd'
+                    sh 'ls'
                     sh 'docker build -t $DOCKER_IMAGE .'
                     sh 'docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW'
                     sh 'docker push $DOCKER_IMAGE'

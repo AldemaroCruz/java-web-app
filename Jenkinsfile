@@ -8,8 +8,6 @@ pipeline {
                   containers:
                   - name: docker
                     image: docker:dind
-                    command: ['dockerd-entrypoint.sh']
-                    args: ['--host=unix:///var/run/docker.sock', '--host=tcp://0.0.0.0:2375', '--tls=false']
                     securityContext:
                       privileged: true
                     env:

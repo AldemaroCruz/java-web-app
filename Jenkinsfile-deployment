@@ -10,14 +10,17 @@ pipeline {
                     image: docker:dind
                     securityContext:
                       privileged: true
-                    volumeMounts:
-                    - name: docker-sock
-                      mountPath: /var/run/docker.sock
-                  volumes:
-                  - name: docker-sock
-                    hostPath:
-                      path: /var/run/docker.sock
-                      type: Socket
+                    env:
+                      - name: DOCKER_TLS_CERTDIR
+                          value: ""
+                      - name: jnlp
+                        image: jenkins/inbound-agent:4.3-4
+                        volumeMounts:
+                        - mountPath: "/home/jenkins"
+                          name: "workspace-volume"
+                      volumes:
+                      - name: workspace-volume
+                        emptyDir: {}
           '''
         }
     }

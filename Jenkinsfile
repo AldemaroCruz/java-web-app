@@ -12,19 +12,14 @@ pipeline {
                     args: ['--host=unix:///var/run/docker.sock', '--host=tcp://0.0.0.0:2375', '--tls=false']
                     securityContext:
                       privileged: true
-                    env:
-                      - name: DOCKER_TLS_CERTDIR
-                        value: ''
-                      - name: DOCKER_HOST
-                        value: 'tcp://0.0.0.0:2375'
-                  - name: jnlp
-                    image: jenkins/inbound-agent:latest
                     volumeMounts:
-                    - mountPath: "/home/jenkins"
-                      name: "workspace-volume"
+                    - mountPath: /var/run/docker.sock
+                      name: docker-sock
                   volumes:
-                  - name: workspace-volume
-                    emptyDir: {}
+                  - name: docker-sock
+                    hostPath:
+                      path: /var/run/docker.sock
+                      type: Socket
             '''
         }
     }

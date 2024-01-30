@@ -17,7 +17,7 @@ pipeline {
                     - mountPath: /var/run/docker.sock
                       name: docker-sock
                   - name: jnlp
-                    image: jenkins/inbound-agent:4.3-4
+                    image: jenkins/inbound-agent:latest
                     volumeMounts:
                     - mountPath: /home/jenkins
                       name: workspace-volume

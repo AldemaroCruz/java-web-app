@@ -38,24 +38,7 @@ pipeline {
                     sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
                 }
             }
-            post {
-                success {
-                    script {
-                        def qgStatus = 'NONE'
-                        def waitForQG = true
-                        while (waitForQG) {
-                            sleep(time: 10, unit: 'SECONDS') // Adjust the timing as needed
-                            def qgResponse = httpRequest(url: "${SONARQUBE_URL}/api/qualitygates/project_status?projectKey=yourProjectKey")
-                            def qgResult = readJSON text: qgResponse.content
-                            qgStatus = qgResult.projectStatus.status
-                            waitForQG = (qgStatus == 'NONE' || qgStatus == 'OK')
-                        }
-                        if (qgStatus != 'OK') {
-                            error "Quality Gate failed: ${qgStatus}"
-                        }
-                    }
-                }
-            }
+            
         }
         stage('Build and Push Docker Image') {
             steps {

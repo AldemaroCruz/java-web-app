@@ -8,6 +8,7 @@ pipeline {
                   containers:
                   - name: docker
                     image: docker:dind
+                    args: ["--tls=false"]
                     securityContext:
                       privileged: true
                     env:

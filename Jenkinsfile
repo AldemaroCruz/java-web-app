@@ -14,9 +14,9 @@ pipeline {
                       - name: DOCKER_TLS_CERTDIR
                         value: ''
                       - name: DOCKER_HOST
-                        value: 'tcp://localhost:2375'
+                        value: 'tcp://0.0.0.0:2375'
                   - name: jnlp
-                    image: jenkins/inbound-agent:4.13
+                    image: jenkins/inbound-agent:latest
                     volumeMounts:
                     - mountPath: "/home/jenkins"
                       name: "workspace-volume"

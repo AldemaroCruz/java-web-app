@@ -8,25 +8,19 @@ pipeline {
                   containers:
                   - name: docker
                     image: docker:dind
-                    args: ["--tls=false"]
                     securityContext:
                       privileged: true
                     env:
-                    - name: DOCKER_TLS_CERTDIR
-                      value: ""
-                    volumeMounts:
-                    - mountPath: /var/run/docker.sock
-                      name: docker-sock
+                      - name: DOCKER_TLS_CERTDIR
+                        value: ''
+                      - name: DOCKER_HOST
+                        value: 'tcp://localhost:2375'
                   - name: jnlp
-                    image: jenkins/inbound-agent:latest
+                    image: jenkins/inbound-agent:4.13
                     volumeMounts:
-                    - mountPath: /home/jenkins
-                      name: workspace-volume
+                    - mountPath: "/home/jenkins"
+                      name: "workspace-volume"
                   volumes:
-                  - name: docker-sock
-                    hostPath:
-                      path: /var/run/docker.sock
-                      type: Socket
                   - name: workspace-volume
                     emptyDir: {}
             '''
